@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scholarship Information Portal</title>
+
+    <style>
+        /* GENERAL PAGE STYLING */
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6fa;
+            margin: 0;
+            padding: 20px;
+            color: #333333;
+        }
+
+        h1, h2 {
+            color: #123568;
+        }
+
+        h1 {
+            font-size: 30px;
+        }
+
+        h2 {
+            font-size: 26px;
+            margin-top: 20px;
+        }
+
+        p {
+            font-size: 17px;
+            line-height: 1.7;
+        }
+
+        /* NAVIGATION BAR */
+        .navbar {
+            background-color: #123568;
+            padding: 18px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .logo {
+            color: white;
+            font-size: 21px;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .nav-links a:hover {
+            color: #f5c542;
+        }
+
+        /* MAIN CONTENT */
+        main {
+            max-width: 1100px;
+            margin: auto;
+        }
+
+        section {
+            padding: 20px 0;
+            scroll-margin-top: 20px;
+        }
+
+        /* BUTTON */
+        button {
+            background-color: #123568;
+            color: white;
+            padding: 14px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #1c4b8c;
+        }
+
+        /* SCHOLARSHIP SEARCH AND FILTERS */
+        .search-controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin: 20px 0;
+        }
+
+        .search-controls input,
+        .search-controls select {
+            flex: 1;
+            min-width: 180px;
+            padding: 12px;
+            border: 1px solid #cbd3df;
+            border-radius: 8px;
+            font-size: 16px;
+            background-color: white;
+        }
+
+        /* SCHOLARSHIP CARDS */
+        .scholarship-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .scholarship-card {
+            background-color: white;
+            padding: 22px;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+        }
+
+        .scholarship-card h3 {
+            color: #123568;
+            font-size: 20px;
+            margin-top: 0;
+        }
+
+        .scholarship-card p {
+            font-size: 15px;
+        }
+
+        .status {
+            display: inline-block;
+            background-color: #e5edf8;
+            color: #123568;
+            padding: 7px 10px;
+            border-radius: 5px;
+            font-size: 12px;
+            margin-bottom: 12px;
+        }
+
+        .card-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .scholarship-btn {
+            display: inline-block;
+            text-align: center;
+            text-decoration: none;
+            padding: 11px 14px;
+            border-radius: 7px;
+            font-size: 14px;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+
+        .details-btn {
+            background-color: #e8eef7;
+            color: #123568;
+        }
+
+        .details-btn:hover {
+            background-color: #d5e1f2;
+        }
+
+        .apply-btn {
+            background-color: #123568;
+            color: white;
+        }
+
+        .apply-btn:hover {
+            background-color: #1c4b8c;
+        }
+
+        #noResults {
+            display: none;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        /* PROGRAMME LIST */
+        .programme-list {
+            background-color: white;
+            padding: 25px 40px;
+            border-radius: 10px;
+        }
+
+        .programme-list li {
+            padding: 10px;
+            font-size: 17px;
+        }
+
+        /* ABOUT AND CONTACT */
+        .info-section {
+            background-color: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        /* FOOTER */
+        footer {
+            text-align: center;
+            padding: 25px;
+            margin-top: 30px;
+            color: #666666;
+            font-size: 14px;
+        }
+
+        /* MOBILE RESPONSIVENESS */
+        @media (max-width: 600px) {
+            body {
+                padding: 12px;
+            }
+
+            .navbar {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .nav-links {
+                gap: 12px;
+            }
+
+            h1 {
+                font-size: 26px;
+            }
+
+            h2 {
+                font-size: 23px;
+            }
+
+            .scholarship-card {
+                padding: 18px;
+            }
+
+            .card-buttons {
+                flex-direction: column;
+            }
+
+            .scholarship-btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVIGATION BAR -->
+    <nav class="navbar">
+        <div class="logo">ScholarPortal</div>
+
+        <div class="nav-links">
+            <a href="#home">Home</a>
+            <a href="#scholarships">Scholarships</a>
+            <a href="#programmes">Programmes</a>
+            <a href="#about">About</a>
+            <a href="#contact">Contact</a>
+        </div>
+    </nav>
+
+    <main>
+
+        <!-- HOME SECTION -->
+        <section id="home">
+            <h1>Welcome to Our Scholarship Portal</h1>
+
+            <p>
+                Discover scholarship information and academic opportunities for students
+                around the world.
+            </p>
+
+            <p>
+                Always verify scholarship details through the relevant provider's
+                official website.
+            </p>
+
+            <button id="exploreButton">Explore Available Programmes</button>
+        </section>
+
+        <!-- SCHOLARSHIP SECTION -->
+        <section id="scholarships">
+            <h2>Scholarship Opportunities</h2>
+
+            <!-- SEARCH AND CATEGORY FILTER -->
+            <div class="search-controls">
+                <input
+                    type="text"
+                    id="scholarshipSearch"
+                    placeholder="Search scholarships..."
+                >
+
+                <select id="categoryFilter">
+                    <option value="all">All Categories</option>
+                    <option value="merit">Merit-Based</option>
+                    <option value="need">Need-Based</option>
+                    <option value="international">International</option>
+                </select>
+            </div>
+
+            <div class="scholarship-grid" id="scholarshipGrid">
+
+                <!-- FIRST SCHOLARSHIP CARD -->
+                <div class="scholarship-card" data-category="merit">
+                    <span class="status">Check official announcement</span>
+
+                    <h3>Vice-Chancellor's Academic Excellence Scholarship</h3>
+
+                    <p><strong>Offered by:</strong> Malawi University of Science and Technology (MUST)</p>
+
+                    <p><strong>Award:</strong> Full tuition coverage for 4 years + book allowance of MWK 250,000 per year.</p>
+
+                    <p><strong>Who Can Apply:</strong> Applicants meeting the academic requirements stated in the official scholarship announcement.</p>
+
+                    <p><strong>Possible Requirements:</strong></p>
+                    <ul>
+                        <li>Copy of MSCE results</li>
+                        <li>Admission letter from MUST</li>
+                        <li>Recommendation letter, if required</li>
+                    </ul>
+
+                    <p><strong>Deadline:</strong> Verify from the latest official announcement.</p>
+
+                    <div class="card-buttons">
+                        <a
+                            href="https://www.must.ac.mw/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="scholarship-btn details-btn"
+                        >View Details</a>
+
+                        <a
+                            href="https://www.must.ac.mw/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="scholarship-btn apply-btn"
+                        >Visit Official Site</a>
+                    </div>
+                </div>
+
+                <!-- SECOND SCHOLARSHIP CARD -->
+                <div class="scholarship-card" data-category="need">
+                    <span class="status">Check current requirements</span>
+
+                    <h3>Higher Education Students' Loans and Grants Board (HESLGB)</h3>
+
+                    <p><strong>Offered by:</strong> Government of Malawi</p>
+
+                    <p><strong>Support:</strong> Student loans and grants, depending on the current funding programme and eligibility criteria.</p>
+
+                    <p><strong>Who Can Apply:</strong> Eligible students admitted to recognised higher education institutions who meet the Board's current requirements.</p>
+
+                    <p><strong>Documents may include:</strong></p>
+                    <ul>
+                        <li>Admission letter</li>
+                        <li>Proof of financial circumstances</li>
+                        <li>Identification documents</li>
+                    </ul>
+
+                    <p><strong>Deadline:</strong> Check the official website for the current application period.</p>
+
+                    <div class="card-buttons">
+                        <a
+                            href="https://heslgb.mw/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="scholarship-btn details-btn"
+                        >View Details</a>
+
+                        <a
+                            href="https://heslgb.mw/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="scholarship-btn apply-btn"
+                        >Visit Official Site</a>
+                    </div>
+                </div>
+
+                <!-- THIRD SCHOLARSHIP CARD -->
+                <div class="scholarship-card" data-category="international">
+                    <span class="status">Applications currently closed</span>
+
+                    <h3>Chevening Scholarship – United Kingdom</h3>
+
+                    <p><strong>Offered by:</strong> UK Foreign, Commonwealth and Development Office</p>
+
+                    <p><strong>Award:</strong> Usually includes tuition fees, living allowance, travel and other eligible costs, according to the current award terms.</p>
+
+                    <p><strong>Who Can Apply:</strong> Applicants who meet Chevening's current eligibility criteria, including degree and work-experience requirements.</p>
+
+                    <p><strong>Study:</strong> Master's degree programmes in the United Kingdom.</p>
+
+                    <p><strong>Application Status:</strong> Applications for the 2027–2028 cycle are currently closed. Check the official Malawi page for future updates.</p>
+
+                    <div class="card-buttons">
+                        <a
+                            href="https://www.chevening.org/scholarship/malawi/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="scholarship-btn details-btn"
+                        >View Details</a>
+
+                        <a
+                            href="https://www.chevening.org/scholarship/malawi/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="scholarship-btn apply-btn"
+                        >Visit Official Site</a>
+                    </div>
+                </div>
+
+            </div>
+
+            <p id="noResults">No scholarships matched your search. Try another keyword or category.</p>
+        </section>
+
+        <!-- PROGRAMMES SECTION -->
+        <section id="programmes">
+            <h2>Available Programmes</h2>
+
+            <div class="programme-list">
+                <ul>
+                    <li>Medicine and Health Sciences</li>
+                    <li>Engineering and Technology</li>
+                    <li>Business and Economics</li>
+                    <li>Education</li>
+                    <li>Computer Science and Information Technology</li>
+                    <li>Agriculture and Environmental Sciences</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- ABOUT SECTION -->
+        <section id="about">
+            <h2>About Us</h2>
+
+            <div class="info-section">
+                <p>
+                    Hastings Scholarship Information Portal is a student-focused website designed
+                    to help visitors discover scholarship opportunities and educational
+                    programmes in one place.
+                </p>
+
+                <p>
+                    This is an independent information project and is not affiliated
+                    with any scholarship provider or university. Always confirm
+                    information with official sources before applying.
+                </p>
+            </div>
+        </section>
+
+        <!-- CONTACT SECTION -->
+        <section id="contact">
+            <h2>Contact</h2>
+
+            <div class="info-section">
+                <p>
+                    Have a question or suggestion about the portal? Contact the portal
+                    administrator using the contact information provided by the website owner. <li>For more information and clarification you can contact us on : 0996280536/0880339885</li>
+                    <li>Email : hluphande@gmail.com/ hastingsmaster760@gmail.com</li>
+                </p>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>&copy; 2026 Hastings Scholarship Information Portal. Always verify information with official providers.</p>
+    </footer>
+
+    <script>
+        // EXPLORE BUTTON
+        const exploreButton = document.getElementById("exploreButton");
+
+        exploreButton.addEventListener("click", function () {
+            document.getElementById("programmes").scrollIntoView({
+                behavior: "smooth"
+            });
+        });
+
+        // SCHOLARSHIP SEARCH AND FILTER
+        const scholarshipSearch = document.getElementById("scholarshipSearch");
+        const categoryFilter = document.getElementById("categoryFilter");
+        const scholarshipCards = document.querySelectorAll(".scholarship-card");
+        const noResults = document.getElementById("noResults");
+
+        function filterScholarships() {
+            const searchText = scholarshipSearch.value.toLowerCase();
+            const selectedCategory = categoryFilter.value;
+            let visibleCards = 0;
+
+            scholarshipCards.forEach(function (card) {
+                const cardText = card.textContent.toLowerCase();
+                const cardCategory = card.dataset.category;
+
+                const matchesSearch = cardText.includes(searchText);
+                const matchesCategory =
+                    selectedCategory === "all" ||
+                    cardCategory === selectedCategory;
+
+                if (matchesSearch && matchesCategory) {
+                    card.style.display = "";
+                    visibleCards++;
+                } else {
+                    card.style.display = "none";
+                }
+            });
+
+            if (visibleCards === 0) {
+                noResults.style.display = "block";
+            } else {
+                noResults.style.display = "none";
+            }
+        }
+
+        scholarshipSearch.addEventListener("input", filterScholarships);
+        categoryFilter.addEventListener("change", filterScholarships);
+    </script>
+
+</body>
+</html>
